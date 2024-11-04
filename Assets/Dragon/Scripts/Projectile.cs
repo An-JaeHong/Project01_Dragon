@@ -22,13 +22,14 @@ public class Projectile : MonoBehaviour
     private EnemySpawn enemySpawn;
     private GameObject playerObject;
 
-    public float FistStopPosX;
-
+    
+ 
     private void Start()
     {
+        
         GameManager.Instance.projectile=this;
         //player = FindObjectOfType<Player>();
-
+        //print(fistStopPosX);
     }
 
     public void Initialize(Vector2 direction)
@@ -112,14 +113,16 @@ public class Projectile : MonoBehaviour
                     player.amount++;
                     if (player.amount == 1)
                     {
-                       
-                        FistStopPosX= gameObject.transform.position.x;
-                        print(FistStopPosX);
+
+                        player.fistStopPosX= gameObject.transform.position.x;
+                        //print(player.fistStopPosX);
                     }
-                    print(player.amount);
+                    //print(player.amount);
                     if (player.amount == 10f) // 발사 수가 10에 도달하면
                     {
+                        //print(player.isShooting);
                         player.isShooting = false; // 발사 상태를 false로 설정
+                        //print(player.isShooting);
                     }
 
                 }

@@ -19,8 +19,12 @@ public class EnemySpawn : MonoBehaviour
     {
         player = playerObject.GetComponent<Player>();
         StartCoroutine(spawnCoroutine());
+    
     }
-
+    private void Update()
+    {
+        
+    }
 
 
     //利 积己 内风凭
@@ -30,8 +34,9 @@ public class EnemySpawn : MonoBehaviour
         while (true)
         {
             int spawnNum = Random.Range(minMaxSpawnCount.x, minMaxSpawnCount.y + 1);
-            int maxNum = 30 - SpawnPositions.Count;
-            print (maxNum);
+            print(spawnNum);
+            int maxNum = 40 - SpawnPositions.Count;
+            //print (maxNum);
            
             if (maxNum < spawnNum)
             { spawnNum = maxNum; }
@@ -44,8 +49,11 @@ public class EnemySpawn : MonoBehaviour
             yield return new WaitUntil(() => !player.isShooting);
         }
 
-    }
+        
 
+
+    }
+   
     //利 积己 
     private void Spawn(int count)
     {
@@ -56,7 +64,7 @@ public class EnemySpawn : MonoBehaviour
 
             do
             {
-                float ranPosX = Random.Range(-4, 3) + 0.5f;
+                float ranPosX = Random.Range(-4, 4) + 0.5f;
                 float ranPosY = Random.Range(6, 11) + 0.5f;
 
 
@@ -72,6 +80,14 @@ public class EnemySpawn : MonoBehaviour
     public void RemoveSpawnPosition(Vector2 position)
     {
         SpawnPositions.Remove(position);
+    }
+
+    public void AddSpawnPosition(Vector2 position)
+    {
+        if (!SpawnPositions.Contains(position))
+        {
+            SpawnPositions.Add(position);
+        }
     }
 
 }

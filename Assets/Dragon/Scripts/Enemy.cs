@@ -15,13 +15,17 @@ public class Enemy : MonoBehaviour
     public GameObject playerObject;
     private void Start()
     {
+        enemySpawn = FindObjectOfType<EnemySpawn>();
         GameManager.Instance.enemies.Add(this);
+        enemySpawn.RemoveSpawnPosition(transform.position);
         //player = playerObject.GetComponent<Player>();
     }
 
     private void Update()
     {
         hpBar.fillAmount = hpAmount;
+        UpdateSpawnPosition();
+        //Move() 턴마다 이동예정
     }
 
     public void die()
@@ -29,15 +33,23 @@ public class Enemy : MonoBehaviour
         // 적이 죽을 때 SpawnPositions에서 위치 제거
         if (enemySpawn != null)
         {
-            //enemySpawn.RemoveSpawnPosition(transform.position);
+            enemySpawn.RemoveSpawnPosition(transform.position);
         }
         Destroy(gameObject);
+        
       
     }
+
 
     private void Move()
     { 
     
+    }
+    private void UpdateSpawnPosition()
+    {
+        // 현재 위치를 SpawnPositions에서 제거하고, 새로운 위치를 추가
+        enemySpawn.RemoveSpawnPosition(transform.position);
+        //enemySpawn.AddSpawnPosition(transform.position); // 새로운 위치 추가
     }
 }
 

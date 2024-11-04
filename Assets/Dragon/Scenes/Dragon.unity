@@ -2515,7 +2515,6 @@ MonoBehaviour:
   shotPoint: {fileID: 1272414918}
   ProjectileFirePrefab: {fileID: 4061446971344193773, guid: 66bbf478689442644883bfb587179864, type: 3}
   movespeed: 10
-  newPosX: 0
   isShooting: 0
 --- !u!1 &1015581589
 GameObject:
