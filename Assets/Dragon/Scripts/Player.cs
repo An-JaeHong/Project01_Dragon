@@ -18,11 +18,15 @@ public class Player : MonoBehaviour
     public Image hpBar;
     public GameObject shotPoint;
     public GameObject ProjectileFirePrefab;
+    public GameObject shootDirPrefab;
     public float movespeed = 100f;
     private Rigidbody2D rb;
-
+    private GameObject shootDir;
+    private float angle;
+    Vector2 pos;
     internal float fistStopPosX = 0f;
     private float newPosX;//다음라운드 공격위치
+
 
     private Projectile projectile;
 
@@ -30,10 +34,13 @@ public class Player : MonoBehaviour
     public bool isShooting = false; //발사 여부 
     public float hpAmount { get { return hp / maxHp; } }
 
+    private float moveDir;
+
 
     private void Start()
     {
-        GameManager.Instance.player= this;
+
+        GameManager.Instance.player = this;
         projectile = FindObjectOfType<Projectile>();
         StartCoroutine(Coroutine1());
 
@@ -43,26 +50,27 @@ public class Player : MonoBehaviour
     {
 
         hpBar.fillAmount = hpAmount;
-        
-            
-           
-        
+        ShootDir();
+
+        shotPoint.transform.position = shotPoint.transform.position;
+
+
     }
 
 
     public void DirPos()
     {
-        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //print(pos);
+        pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         initialDirection = (pos - (Vector2)shotPoint.transform.position).normalized;
+        angle = Mathf.Atan2(initialDirection.x, initialDirection.y) * -Mathf.Rad2Deg;
 
     }
- 
+
 
     //공격 코루틴
-  public IEnumerator first_shotCoroutine()
+    public IEnumerator first_shotCoroutine()
     {
-        
+
         print("1.공격 코루틴 시작");
 
         isShooting = true;//발사 시작
@@ -74,21 +82,56 @@ public class Player : MonoBehaviour
 
             yield return new WaitForSeconds(0.1f);
             amount--;
-            
+
             //print(amount);
         }
         print(isShooting);
-      
-    
+
+
     }
+    private void ShootDir()
+    {
+        if (Input.GetMouseButtonDown(0) && isShooting == false)
+        {
+            DirPos();
+            shootDir = Instantiate(shootDirPrefab, pos, Quaternion.identity);
+            print("누름");
+        }
+        else if (Input.GetMouseButton(0) && shootDir != null && isShooting == false)
+        {
+            DirPos();
+            Vector2 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            shootDir.transform.position = newPos;
+            shootDir.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+            Transform tail = shootDir.transform.Find("tail");
+            if (tail != null)
+            {
+
+                Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                float a = (mouseWorldPos.x + shotPoint.transform.position.x) / 2;
+                float b = (mouseWorldPos.y + shotPoint.transform.position.y) / 2;
+                tail.transform.position = new Vector2(a, b);
+                //tail.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                tail.transform.localScale = new Vector2(1, b);
+            }
+
+
+        }
+        if (isShooting == true)
+        { Destroy(shootDir); }
+    }
+
+
 
     public IEnumerator Coroutine1() // 확인용
     {
         while (true)
         {
+
             DirPos();
             yield return StartCoroutine(third_MoveCoroutine());
-            if (Input.GetMouseButtonDown(0) && isShooting == false)
+            if (Input.GetMouseButtonUp(0) && isShooting == false)
             {
 
                 // 첫 번째 코루틴이 끝날 때까지 대기
@@ -98,6 +141,11 @@ public class Player : MonoBehaviour
                 //yield return new WaitUntil(() => projectile.fistStopPosX != 0);
 
                 // 세 번째 코루틴 실행
+                yield return new WaitUntil(() => isShooting);
+                foreach (Enemy enemy in GameManager.Instance.enemies)
+                {
+                    enemy.Move();
+                }
             }
         }
     }
@@ -108,10 +156,10 @@ public class Player : MonoBehaviour
 
         //print("3코루틴 시작");
         //print($"Fist : {fistStopPosX}");
-        Vector2 newposition= new Vector2(fistStopPosX, -1f); 
+        Vector2 newposition = new Vector2(fistStopPosX, -1f);
         transform.position = newposition;
-        
+
         yield return null;
     }
-      
+
 }

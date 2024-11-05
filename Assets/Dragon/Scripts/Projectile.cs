@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
@@ -49,6 +50,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -63,9 +65,8 @@ public class Projectile : MonoBehaviour
                 Vector2 reflected = Vector2.Reflect(incoming, normal); // 반사된 방향 계산
                 moveDir = reflected;
 
-
-                rb.velocity = moveDir * moveSpeed;
-
+                rb.velocity = moveDir* moveSpeed;
+               
                 if (collision.collider.CompareTag("Enemy"))
                 {
                     Enemy enemy = collision.collider.GetComponent<Enemy>();

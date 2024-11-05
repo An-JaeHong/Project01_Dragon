@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     {
         hpBar.fillAmount = hpAmount;
         UpdateSpawnPosition();
-        //Move() 턴마다 이동예정
+        
     }
 
     public void die()
@@ -41,15 +41,15 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private void Move()
-    { 
-    
+    public void Move()
+    {
+        transform.position -= new Vector3(0, 1, 0);
     }
     private void UpdateSpawnPosition()
     {
         // 현재 위치를 SpawnPositions에서 제거하고, 새로운 위치를 추가
         enemySpawn.RemoveSpawnPosition(transform.position);
-        //enemySpawn.AddSpawnPosition(transform.position); // 새로운 위치 추가
+        enemySpawn.AddSpawnPosition(transform.position);
     }
 }
 

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     internal List<Enemy> enemies = new List<Enemy>();
     internal Player player;
     internal Projectile projectile;
-
+    internal Enemy enemy;
     private void Awake()
     {
         if (instance == null) { instance = this; }
