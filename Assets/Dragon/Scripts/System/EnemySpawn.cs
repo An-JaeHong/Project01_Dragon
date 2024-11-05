@@ -35,11 +35,11 @@ public class EnemySpawn : MonoBehaviour
         {
             int spawnNum = Random.Range(minMaxSpawnCount.x, minMaxSpawnCount.y + 1);
             print(spawnNum);
-            int maxNum = 40 - SpawnPositions.Count;
-            //print (maxNum);
+            //int maxNum = 40 - SpawnPositions.Count;
+         
            
-            if (maxNum < spawnNum)
-            { spawnNum = maxNum; }
+            //if (maxNum < spawnNum)
+            //{ spawnNum = maxNum; }
 
 
             Spawn(spawnNum);
@@ -47,6 +47,7 @@ public class EnemySpawn : MonoBehaviour
 
             yield return new WaitUntil(() => player.isShooting);
             yield return new WaitUntil(() => !player.isShooting);
+            //print(SpawnPositions.Count);
         }
 
         

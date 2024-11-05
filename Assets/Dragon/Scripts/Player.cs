@@ -142,9 +142,17 @@ public class Player : MonoBehaviour
 
                 // 세 번째 코루틴 실행
                 yield return new WaitUntil(() => isShooting);
-                foreach (Enemy enemy in GameManager.Instance.enemies)
+                for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--) // 역순으로 반복
                 {
-                    enemy.Move();
+                    Enemy enemy = GameManager.Instance.enemies[i];
+                    if (enemy != null) // null 체크 추가
+                    {
+                        enemy.Move(); // Enemy의 Move 메서드 호출
+                    }
+                    else
+                    {
+                        GameManager.Instance.enemies.RemoveAt(i); // null인 경우 리스트에서 제거
+                    }
                 }
             }
         }

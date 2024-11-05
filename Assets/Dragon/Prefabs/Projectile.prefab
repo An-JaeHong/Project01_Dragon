@@ -194,8 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab176cd4e3b74e4894bd782864a4823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
-  moveSpeed: 10
+  damage: 200
+  moveSpeed: 30
   movepoint: {x: 0, y: 0}
   mousePosition: {x: 0, y: 0}
   shotPos: {x: 0, y: 0}
