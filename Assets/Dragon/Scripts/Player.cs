@@ -26,26 +26,26 @@ public class Player : MonoBehaviour
     public GameObject ProjectileFirePrefab;
     public GameObject shootDirPrefab;
     public float movespeed = 100f;
-    private Rigidbody2D rb; 
+    private Rigidbody2D rb;
     private GameObject shootDir;
     private float angle;
     Vector2 pos;
     internal float fistStopPosX = 0f;
-    private float newPosX;//�������� ������ġ
+    private float newPosX;
     private Exp exp;
-    
+
     private Projectile projectile;
 
     private Vector2 initialDirection;
-    public bool isShooting = false; //�߻� ���� 
+    public bool isShooting = false;
     public float hpAmount { get { return hp / maxHp; } }
 
-    //����ġ�� (�ٸ�����)
+
     public float ExpAmount { get { return currentExp / LevelUpExp; } }
 
     private float moveDir;
 
-    
+
 
     private void Start()
     {
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        
+
         hpBar.fillAmount = hpAmount;
         expBar.fillAmount = ExpAmount;
         ShootDir();
@@ -82,14 +82,13 @@ public class Player : MonoBehaviour
     }
 
 
-    //���� �ڷ�ƾ
+
     public IEnumerator first_shotCoroutine()
     {
 
-        print("1.���� �ڷ�ƾ ����");
 
-        isShooting = true;//�߻� ����
-        
+        isShooting = true;
+
         for (int i = 0; i < initialAmount; i++)
         {
             GameObject projectile = Instantiate(ProjectileFirePrefab, shotPoint.transform.position, Quaternion.identity);
@@ -110,7 +109,7 @@ public class Player : MonoBehaviour
         {
             DirPos();
             shootDir = Instantiate(shootDirPrefab, pos, Quaternion.identity);
-            //print("����");
+
         }
         else if (Input.GetMouseButton(0) && shootDir != null && isShooting == false)
         {
@@ -139,51 +138,55 @@ public class Player : MonoBehaviour
 
 
 
-    public IEnumerator Coroutine1() // Ȯ�ο�
+    public IEnumerator Coroutine1()
     {
         while (true)
         {
 
             DirPos();
-            
+
             if (Input.GetMouseButtonUp(0) && isShooting == false)
             {
 
-                // ù ��° �ڷ�ƾ�� ���� ������ ���
+
                 yield return StartCoroutine(first_shotCoroutine());
 
-                // FistStopPosX�� ������ ������ ���
+
                 //yield return new WaitUntil(() => projectile.fistStopPosX != 0);
 
-                // �� ��° �ڷ�ƾ ����
+
                 yield return new WaitUntil(() => isShooting);
-                for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--) // �������� �ݺ�
+                for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--)
                 {
                     Enemy enemy = GameManager.Instance.enemies[i];
-                    if (enemy != null) // null üũ �߰�
+                    if (enemy != null)
                     {
-                        enemy.Move(); // Enemy�� Move �޼��� ȣ��
+                        enemy.Move();
                     }
                     else
                     {
-                        GameManager.Instance.enemies.RemoveAt(i); // null�� ��� ����Ʈ���� ����
+                        GameManager.Instance.enemies.RemoveAt(i);
                     }
                 }
+                yield return new WaitUntil(() => isShooting == false);
             }
+
+            
             yield return StartCoroutine(third_MoveCoroutine());
-            if (exp != null)
-            {
-                print("�۵���");
-                exp.gainExp();
-            }
+
+
+            //print("삭제전");
+        
+            //print("삭제후");
+
         }
     }
 
-    //3. �̵�
+    //3. 
     private IEnumerator third_MoveCoroutine()
     {
 
-        //print("3�ڷ�ƾ ����");
+
         //print($"Fist : {fistStopPosX}");
         Vector2 newposition = new Vector2(fistStopPosX, -1f);
         transform.position = newposition;
@@ -191,10 +194,10 @@ public class Player : MonoBehaviour
         yield return null;
     }
 
-    public void TakeExp()
-    {
-
-    }
+    //public void TakeExp()
+    //{
+    //    exp.gainExp();
+    //}
 
     public void LevelUp()
     {
@@ -202,19 +205,18 @@ public class Player : MonoBehaviour
         {
             print("LevelUp");
             level++;
-            print($"���� ���� : {level}");
+            print($"현재 레벨 : {level}");
             currentExp -= LevelUpExp;
-            //print($"���� ����ġ : {LevelUpExp}");
             LevelUpExp += PlusNextLevelExp;
 
-            //print($"�ʿ� ����ġ : {LevelUpExp}");
+            
 
             //print(projectile.damage);
             //projectile.damage += 100f;
-            //print(projectile.damage); ������ ������Ʈ _�̺κ� ������ ���߿� ����ġ ���� �ؾ���
+
             amount += 10;
             print(amount);
-            initialAmount +=10;
+            initialAmount += 10;
         }
     }
 }

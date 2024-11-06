@@ -14,6 +14,6 @@ public class ExpPoint : MonoBehaviour
     private void Update()
     {
         Vector2 newPos = new Vector2(-5f+player.ExpAmount*10, 11.2f);
-        transform.position = newPos;
+        transform.position = newPos; 
     }
 }

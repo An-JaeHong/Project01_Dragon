@@ -83,7 +83,7 @@ public class Projectile : MonoBehaviour
                             List<Vector2> spawnPositions = enemySpawn.SpawnPositions;
                             spawnPositions.Remove(this.transform.position);
                             //print(player.currentExp);
-                            player.currentExp += 100f; //다른곳에서 먹어야해
+                            //player.currentExp += 100f; //다른곳에서 먹어야해
                             //print(player.currentExp);
                         }
                     }
