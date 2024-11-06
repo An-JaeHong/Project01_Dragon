@@ -12,13 +12,16 @@ public class Enemy : MonoBehaviour
     public float hpAmount { get { return hp / maxHp; } }
     private EnemySpawn enemySpawn;
     private Player player;
-    public GameObject playerObject;
+    public float exp = 100;
+    public float plusExp = 10;
+
+    public GameObject expPrefabs;
     private void Start()
     {
         enemySpawn = FindObjectOfType<EnemySpawn>();
         GameManager.Instance.enemies.Add(this);
         enemySpawn.RemoveSpawnPosition(transform.position);
-        //player = playerObject.GetComponent<Player>();
+        player = FindObjectOfType<Player>();
     }
 
     private void Update()
@@ -28,6 +31,19 @@ public class Enemy : MonoBehaviour
         
     }
 
+    public void takeDamage()
+    {
+        if (transform.position.y <= 1.5f)
+        {
+            print(player.hp);
+
+            player.hp--;
+            die();
+            print(player.hp);
+
+        }
+    }
+
     public void die()
     {
         // 적이 죽을 때 SpawnPositions에서 위치 제거
@@ -35,6 +51,7 @@ public class Enemy : MonoBehaviour
         {
             enemySpawn.RemoveSpawnPosition(transform.position);
         }
+        GameObject expPrefab = Instantiate(expPrefabs, transform.position, Quaternion.identity);
         Destroy(gameObject);
         
       
@@ -43,12 +60,21 @@ public class Enemy : MonoBehaviour
 
     public void Move()
     {
+        if (transform.position.y <= 1.5f)
+        {
+            //print(player.hp);
+
+            player.hp--;
+            die();
+            //print(player.hp);
+
+        }
         transform.position -= new Vector3(0, 1, 0);
 
         enemySpawn.RemoveSpawnPosition(transform.position);
-        print("제거함 ");
+        //print("제거함 ");
         enemySpawn.AddSpawnPosition(transform.position);
-        print("추가함");
+        //print("추가함");
     }
     private void UpdateSpawnPosition()
     {

@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 public class Projectile : MonoBehaviour
 {
-    public float damage = 200f;
+    public float damage = 100f;
 
     public float moveSpeed;
     public Vector2 movepoint;
@@ -22,14 +22,15 @@ public class Projectile : MonoBehaviour
     public int amount = 0;// 미사일 연속 발사를 막기위해 임시로 만들어 놓음
     private EnemySpawn enemySpawn;
     private GameObject playerObject;
+    private Exp exp;
 
     
  
     private void Start()
     {
-        
+        exp = FindObjectOfType<Exp>();    
         GameManager.Instance.projectile=this;
-        //player = FindObjectOfType<Player>();
+        player = FindObjectOfType<Player>();
         //print(fistStopPosX);
     }
 
@@ -74,12 +75,16 @@ public class Projectile : MonoBehaviour
                     {
                         enemy.hp -= damage;
 
-                        if (enemy.hp <= 0)
+                        if (enemy.hp <= 0f)
                         {
+                            //print(player.currentExp);
                             enemy.die();
                             enemySpawn = FindObjectOfType<EnemySpawn>();
                             List<Vector2> spawnPositions = enemySpawn.SpawnPositions;
                             spawnPositions.Remove(this.transform.position);
+                            //print(player.currentExp);
+                            player.currentExp += 100f; //다른곳에서 먹어야해
+                            //print(player.currentExp);
                         }
                     }
 
@@ -106,7 +111,7 @@ public class Projectile : MonoBehaviour
                     rb.isKinematic = true; // 물리 엔진의 영향을 받지 않도록 설정
                                            //print(rb.velocity);
                                            // 미사일 삭제
-                    Destroy(gameObject);
+                    Destroy(gameObject); //지금은 삭제 나중 지워짐 옮겨야해
                     player = FindObjectOfType<Player>();
 
                     // Player의 발사 수 증가
@@ -118,8 +123,9 @@ public class Projectile : MonoBehaviour
                         player.fistStopPosX= gameObject.transform.position.x;
                         //print(player.fistStopPosX);
                     }
-                    //print(player.amount);
-                    if (player.amount == 10f) // 발사 수가 10에 도달하면
+                   
+                    
+                    if (player.amount == player.initialAmount) // 발사 수가 10에 도달하면
                     {
                         //print(player.isShooting);
                         player.isShooting = false; // 발사 상태를 false로 설정

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,36 +11,46 @@ public class Player : MonoBehaviour
     public float hp = 4f;
     public float damage = 100f;
     public float LevelUpExp = 1000f;
+    public float currentExp = 0f;
     public float PlusNextLevelExp = 100f;
+
     public float level = 1f;
     public float amount = 10f;
+    public float initialAmount;
+
     private float maxHp = 4f;
     public int killCount = 0;
     public Image hpBar;
+    public Image expBar;
     public GameObject shotPoint;
     public GameObject ProjectileFirePrefab;
     public GameObject shootDirPrefab;
     public float movespeed = 100f;
-    private Rigidbody2D rb;
+    private Rigidbody2D rb; 
     private GameObject shootDir;
     private float angle;
     Vector2 pos;
     internal float fistStopPosX = 0f;
-    private float newPosX;//´ÙÀ½¶ó¿îµå °ø°ÝÀ§Ä¡
-
-
+    private float newPosX;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡
+    private Exp exp;
+    
     private Projectile projectile;
 
     private Vector2 initialDirection;
-    public bool isShooting = false; //¹ß»ç ¿©ºÎ 
+    public bool isShooting = false; //ï¿½ß»ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public float hpAmount { get { return hp / maxHp; } }
+
+    //ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ (ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½)
+    public float ExpAmount { get { return currentExp / LevelUpExp; } }
 
     private float moveDir;
 
+    
 
     private void Start()
     {
-
+        initialAmount = amount;
+        exp = FindObjectOfType<Exp>();
         GameManager.Instance.player = this;
         projectile = FindObjectOfType<Projectile>();
         StartCoroutine(Coroutine1());
@@ -48,9 +59,13 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-
+        
         hpBar.fillAmount = hpAmount;
+        expBar.fillAmount = ExpAmount;
         ShootDir();
+        LevelUp();
+
+
 
         shotPoint.transform.position = shotPoint.transform.position;
 
@@ -67,15 +82,15 @@ public class Player : MonoBehaviour
     }
 
 
-    //°ø°Ý ÄÚ·çÆ¾
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾
     public IEnumerator first_shotCoroutine()
     {
 
-        print("1.°ø°Ý ÄÚ·çÆ¾ ½ÃÀÛ");
+        print("1.ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½");
 
-        isShooting = true;//¹ß»ç ½ÃÀÛ
-        float count = amount;
-        for (int i = 0; i < count; i++)
+        isShooting = true;//ï¿½ß»ï¿½ ï¿½ï¿½ï¿½ï¿½
+        
+        for (int i = 0; i < initialAmount; i++)
         {
             GameObject projectile = Instantiate(ProjectileFirePrefab, shotPoint.transform.position, Quaternion.identity);
             projectile.GetComponent<Projectile>().Initialize(initialDirection);
@@ -85,7 +100,7 @@ public class Player : MonoBehaviour
 
             //print(amount);
         }
-        print(isShooting);
+        //print(isShooting);
 
 
     }
@@ -95,7 +110,7 @@ public class Player : MonoBehaviour
         {
             DirPos();
             shootDir = Instantiate(shootDirPrefab, pos, Quaternion.identity);
-            print("´©¸§");
+            //print("ï¿½ï¿½ï¿½ï¿½");
         }
         else if (Input.GetMouseButton(0) && shootDir != null && isShooting == false)
         {
@@ -124,45 +139,51 @@ public class Player : MonoBehaviour
 
 
 
-    public IEnumerator Coroutine1() // È®ÀÎ¿ë
+    public IEnumerator Coroutine1() // È®ï¿½Î¿ï¿½
     {
         while (true)
         {
 
             DirPos();
-            yield return StartCoroutine(third_MoveCoroutine());
+            
             if (Input.GetMouseButtonUp(0) && isShooting == false)
             {
 
-                // Ã¹ ¹øÂ° ÄÚ·çÆ¾ÀÌ ³¡³¯ ¶§±îÁö ´ë±â
+                // Ã¹ ï¿½ï¿½Â° ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 yield return StartCoroutine(first_shotCoroutine());
 
-                // FistStopPosX°¡ ¼³Á¤µÉ ¶§±îÁö ´ë±â
+                // FistStopPosXï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 //yield return new WaitUntil(() => projectile.fistStopPosX != 0);
 
-                // ¼¼ ¹øÂ° ÄÚ·çÆ¾ ½ÇÇà
+                // ï¿½ï¿½ ï¿½ï¿½Â° ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
                 yield return new WaitUntil(() => isShooting);
-                for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--) // ¿ª¼øÀ¸·Î ¹Ýº¹
+                for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ýºï¿½
                 {
                     Enemy enemy = GameManager.Instance.enemies[i];
-                    if (enemy != null) // null Ã¼Å© Ãß°¡
+                    if (enemy != null) // null Ã¼Å© ï¿½ß°ï¿½
                     {
-                        enemy.Move(); // EnemyÀÇ Move ¸Þ¼­µå È£Ãâ
+                        enemy.Move(); // Enemyï¿½ï¿½ Move ï¿½Þ¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½
                     }
                     else
                     {
-                        GameManager.Instance.enemies.RemoveAt(i); // nullÀÎ °æ¿ì ¸®½ºÆ®¿¡¼­ Á¦°Å
+                        GameManager.Instance.enemies.RemoveAt(i); // nullï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     }
                 }
+            }
+            yield return StartCoroutine(third_MoveCoroutine());
+            if (exp != null)
+            {
+                print("ï¿½Ûµï¿½ï¿½ï¿½");
+                exp.gainExp();
             }
         }
     }
 
-    //3. ÀÌµ¿
+    //3. ï¿½Ìµï¿½
     private IEnumerator third_MoveCoroutine()
     {
 
-        //print("3ÄÚ·çÆ¾ ½ÃÀÛ");
+        //print("3ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½");
         //print($"Fist : {fistStopPosX}");
         Vector2 newposition = new Vector2(fistStopPosX, -1f);
         transform.position = newposition;
@@ -170,4 +191,30 @@ public class Player : MonoBehaviour
         yield return null;
     }
 
+    public void TakeExp()
+    {
+
+    }
+
+    public void LevelUp()
+    {
+        if (LevelUpExp <= currentExp)
+        {
+            print("LevelUp");
+            level++;
+            print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : {level}");
+            currentExp -= LevelUpExp;
+            //print($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ : {LevelUpExp}");
+            LevelUpExp += PlusNextLevelExp;
+
+            //print($"ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ : {LevelUpExp}");
+
+            //print(projectile.damage);
+            //projectile.damage += 100f;
+            //print(projectile.damage); ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® _ï¿½ÌºÎºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½î¼­ ï¿½Ø¾ï¿½ï¿½ï¿½
+            amount += 10;
+            print(amount);
+            initialAmount +=10;
+        }
+    }
 }

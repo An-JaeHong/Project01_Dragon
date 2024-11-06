@@ -384,6 +384,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 1000
   hpBar: {fileID: 1755346210409350587}
+  exp: 100
+  plusExp: 10
+  expPrefabs: {fileID: 8631202777018847877, guid: 9a794c0a36c8f5c4596eff53556bf990, type: 3}
 --- !u!1 &8911865294669147108
 GameObject:
   m_ObjectHideFlags: 0

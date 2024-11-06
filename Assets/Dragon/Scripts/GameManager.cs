@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     internal Projectile projectile;
     internal Enemy enemy;
     private void Awake()
-    {
+    {   
+
         if (instance == null) { instance = this; }
         else { DestroyImmediate(this);
             return;
