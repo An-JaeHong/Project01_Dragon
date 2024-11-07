@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour
     public int round=0;
     
     public float level = 1f;
-    public float amount = 10f;
+    public int amount = 10;
     public float initialAmount;
 
     private float maxHp = 4f;
@@ -62,7 +63,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-
+        upgradeAmount();
         hpBar.fillAmount = hpAmount;
         expBar.fillAmount = ExpAmount;
         ShootDir();
@@ -220,10 +221,26 @@ public class Player : MonoBehaviour
             //projectile.damage += 100f;
 
             amount += 10;
-            print(amount);
+            //print(amount);
             initialAmount += 10;
         StartCoroutine(UIManager.Instance.LevelUpCoroutine()); 
            }
 
+    }
+    private void upgradeAmount()
+    { 
+    if(amount>=100)
+        {
+            print(amount);
+            print(initialAmount);
+            print(projectile.damage);
+            amount /= 10;
+            projectile.damage *= 10f;
+            initialAmount = amount;
+            print(amount);
+            print(initialAmount);
+            print(projectile.damage);
+
+        }
     }
 }
