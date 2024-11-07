@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class Player : MonoBehaviour
     public float LevelUpExp = 1000f;
     public float currentExp = 0f;
     public float PlusNextLevelExp = 100f;
-
+    
+    public int round=0;
+    
     public float level = 1f;
     public float amount = 10f;
     public float initialAmount;
@@ -64,8 +67,10 @@ public class Player : MonoBehaviour
         expBar.fillAmount = ExpAmount;
         ShootDir();
         LevelUp();
-
-
+        
+        UIManager.Instance.killcountText.text = killCount.ToString();
+        UIManager.Instance.roundText.text = round.ToString();
+      UIManager.Instance.shootAmount.text = amount.ToString();
 
         shotPoint.transform.position = shotPoint.transform.position;
 
@@ -155,7 +160,7 @@ public class Player : MonoBehaviour
                 //yield return new WaitUntil(() => projectile.fistStopPosX != 0);
 
 
-                yield return new WaitUntil(() => isShooting);
+                yield return new WaitUntil(() => isShooting==false);
                 for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--)
                 {
                     Enemy enemy = GameManager.Instance.enemies[i];
@@ -168,7 +173,7 @@ public class Player : MonoBehaviour
                         GameManager.Instance.enemies.RemoveAt(i);
                     }
                 }
-                yield return new WaitUntil(() => isShooting == false);
+                //yield return new WaitUntil(() => isShooting == false);
             }
 
             
@@ -217,6 +222,8 @@ public class Player : MonoBehaviour
             amount += 10;
             print(amount);
             initialAmount += 10;
-        }
+        StartCoroutine(UIManager.Instance.LevelUpCoroutine()); 
+           }
+
     }
 }

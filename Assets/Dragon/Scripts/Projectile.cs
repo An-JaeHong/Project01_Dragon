@@ -85,6 +85,8 @@ public class Projectile : MonoBehaviour
                             //print(player.currentExp);
                             //player.currentExp += 100f; //다른곳에서 먹어야해
                             //print(player.currentExp);
+                            player.killCount++;
+                            
                         }
                     }
 

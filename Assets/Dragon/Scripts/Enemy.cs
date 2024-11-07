@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     public float hp=1000;
-    private float maxHp=1500;
+    public float maxHp=1500;
     public Image hpBar;
     public float hpAmount { get { return hp / maxHp; } }
     private EnemySpawn enemySpawn;
@@ -85,8 +85,7 @@ public class Enemy : MonoBehaviour
         enemySpawn.RemoveSpawnPosition(transform.position);
        
         enemySpawn.AddSpawnPosition(transform.position);
-        hp += 100f;
-        maxHp += 100f;
+   
     }
     private void UpdateSpawnPosition()
     {

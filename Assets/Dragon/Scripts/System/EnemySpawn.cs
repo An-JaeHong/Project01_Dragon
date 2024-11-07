@@ -37,11 +37,10 @@ public class EnemySpawn : MonoBehaviour
             int spawnNum = Random.Range(minMaxSpawnCount.x, minMaxSpawnCount.y + 1);
             //print(spawnNum);
             //int maxNum = 40 - SpawnPositions.Count;
-         
-           
+
+
             //if (maxNum < spawnNum)
             //{ spawnNum = maxNum; }
-
 
             Spawn(spawnNum);
 
@@ -60,10 +59,11 @@ public class EnemySpawn : MonoBehaviour
     private void Spawn(int count)
     {
         Vector2 spawnPos;
-
+        player.round++;
+       
         for (int i = 0; i < count; i++)
         {
-
+            
             do
             {
                 float ranPosX = Random.Range(-4, 4) + 0.5f;
@@ -78,6 +78,7 @@ public class EnemySpawn : MonoBehaviour
 
             Instantiate(enemyprefab, spawnPos, Quaternion.identity);
         }
+
     }
     public void RemoveSpawnPosition(Vector2 position)
     {
