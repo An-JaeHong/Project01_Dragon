@@ -9,7 +9,10 @@ public class UIManager : SingtonManager<UIManager>
     public GameObject UpgradeBackground; //script만들 예정
     public GameObject GameOver;//script만들 예정
     public GameObject LevelUp; //단순 출력을위해 , 이후 UpgradeBackground 호출해야해
-    
+    public GameObject upCard1;
+    public GameObject upCard2;
+    public GameObject upCard3;
+
     bool isPaused = false; //시간정지를 위해
 
     public Text killcountText;
@@ -36,16 +39,12 @@ public class UIManager : SingtonManager<UIManager>
     }
     public IEnumerator LevelUpCoroutine()
     {
-        print("정지");
         //Time.timeScale = 0f;
-        print("1");
+      
         LevelUp.SetActive(true);
-        print("2");
         yield return new WaitForSeconds(2f);
-        print("3");
         LevelUp.SetActive(false) ;
-        print("4");
-        Time.timeScale = 1f;
-        print("5");
+        UpgradeBackground.SetActive(true);
+
     }
 }
