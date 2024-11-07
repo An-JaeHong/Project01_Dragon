@@ -12,6 +12,7 @@ public class UIManager : SingtonManager<UIManager>
     public GameObject upCard1;
     public GameObject upCard2;
     public GameObject upCard3;
+    public Button button;
 
     bool isPaused = false; //시간정지를 위해
 
@@ -28,6 +29,11 @@ public class UIManager : SingtonManager<UIManager>
         UpgradeBackground.SetActive(false);
         GameOver.SetActive(false);//script로 만들 예정
         LevelUp.SetActive(false); //단순 출력만 이후 skill upgrade 출력
+       
+        if (button != null)
+        {
+            button.onClick.AddListener(OnAbsorbButtonClick);
+        }
 
     }
     private void Update()
@@ -37,14 +43,27 @@ public class UIManager : SingtonManager<UIManager>
             Time.timeScale = isPaused? 0f : 1f;// isPaused==true 일떈 0_멈춤..;
         }
     }
+    public void EnableShooting()
+    {
+        Time.timeScale = 1f;  // 게임 재개
+        GameManager.Instance.player.canShoot = true;
+        UpgradeBackground.SetActive(false);
+    }
     public IEnumerator LevelUpCoroutine()
     {
         //Time.timeScale = 0f;
-      
+
         LevelUp.SetActive(true);
         yield return new WaitForSeconds(2f);
         LevelUp.SetActive(false) ;
         UpgradeBackground.SetActive(true);
+
+    }
+    public void OnAbsorbButtonClick()
+    {
+        Player player = GameManager.Instance.player;
+        player.AbsorbAllProjectiles();
+
 
     }
 }

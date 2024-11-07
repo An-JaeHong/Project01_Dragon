@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
         {
             expPrefabsList.Add(expComponent);
         }
-        print(expPrefabsList.Count);
+        //print(expPrefabsList.Count);
        
         
       

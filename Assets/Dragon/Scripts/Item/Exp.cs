@@ -20,7 +20,7 @@ public class Exp : MonoBehaviour
         player = FindObjectOfType<Player>();
         expPoint = FindObjectOfType<ExpPoint>();
         target = expPoint.transform;
-        print(player.currentExp);
+        //print(player.currentExp);
         StartCoroutine(gainExp());
 
     }
@@ -33,7 +33,7 @@ public class Exp : MonoBehaviour
     {
         while (true)
         {
-            print("작동함");
+            //print("작동함");
             yield return new WaitUntil(() => !player.isShooting);
             //Vector2 speed = Vector2.zero;
             transform.position = Vector2.MoveTowards(transform.position, target.position, 0.1f); // 스무스한 이동이라고해서 사용해봤는데 그냥 사라짐

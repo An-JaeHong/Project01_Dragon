@@ -3035,6 +3035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a4d34e253c9044f8c3d0a1cab9bd17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canShoot: 1
   hp: 4
   damage: 500
   LevelUpExp: 1000
@@ -4017,9 +4018,10 @@ MonoBehaviour:
   UpgradeBackground: {fileID: 855967109}
   GameOver: {fileID: 1361674385}
   LevelUp: {fileID: 1066304304}
-  upCard1: {fileID: 0}
-  upCard2: {fileID: 0}
-  upCard3: {fileID: 0}
+  upCard1: {fileID: 594282080}
+  upCard2: {fileID: 1541137244}
+  upCard3: {fileID: 1865039939}
+  button: {fileID: 1508546351}
   killcountText: {fileID: 1401761362}
   roundText: {fileID: 1587755877}
   shootAmount: {fileID: 1917813440}

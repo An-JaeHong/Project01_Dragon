@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
+    public bool canShoot = true;
     public float hp = 4f;
     public float damage = 100f;
     public float LevelUpExp = 1000f;
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
 
     private float moveDir;
 
-
+    private Coroutine shootingCoroutine;
 
     private void Start()
     {
@@ -71,7 +72,7 @@ public class Player : MonoBehaviour
         
         UIManager.Instance.killcountText.text = killCount.ToString();
         UIManager.Instance.roundText.text = round.ToString();
-      UIManager.Instance.shootAmount.text = amount.ToString();
+        UIManager.Instance.shootAmount.text = amount.ToString();
 
         shotPoint.transform.position = shotPoint.transform.position;
 
@@ -88,36 +89,44 @@ public class Player : MonoBehaviour
     }
 
 
-
     public IEnumerator first_shotCoroutine()
     {
-
-
         isShooting = true;
 
         for (int i = 0; i < initialAmount; i++)
         {
-            GameObject projectile = Instantiate(ProjectileFirePrefab, shotPoint.transform.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Initialize(initialDirection);
+            if (!isShooting) yield break;
+
+            GameObject projectileObj = Instantiate(ProjectileFirePrefab, shotPoint.transform.position, Quaternion.identity);
+            Projectile projectileComponent = projectileObj.GetComponent<Projectile>();
+            projectileComponent.damage = damage; // 데미지 값을 설정
+            projectileComponent.Initialize(initialDirection);
 
             yield return new WaitForSeconds(0.1f);
             amount--;
-
-            //print(amount);
         }
-        //print(isShooting);
-
-
     }
+    
+    private bool checkMousePos = false;
     private void ShootDir()
     {
-        if (Input.GetMouseButtonDown(0) && isShooting == false)
+        if (!canShoot) return;
+
+        // 마우스 월드좌표로
+        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // 마우스범위
+        bool isInBounds = mouseWorldPos.x >= -4f && mouseWorldPos.x <= 4f &&
+                         mouseWorldPos.y >= 1f && mouseWorldPos.y <= 11f;
+
+        if (Input.GetMouseButtonDown(0) && isShooting == false && isInBounds)
         {
+            checkMousePos = true;
             DirPos();
             shootDir = Instantiate(shootDirPrefab, pos, Quaternion.identity);
 
         }
-        else if (Input.GetMouseButton(0) && shootDir != null && isShooting == false)
+        else if (Input.GetMouseButton(0) && shootDir != null&& isInBounds)
         {
             DirPos();
             Vector2 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -128,7 +137,7 @@ public class Player : MonoBehaviour
             if (tail != null)
             {
 
-                Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                //Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
                 float a = (mouseWorldPos.x + shotPoint.transform.position.x) / 2;
                 float b = (mouseWorldPos.y + shotPoint.transform.position.y) / 2;
                 tail.transform.position = new Vector2(a, b);
@@ -138,8 +147,10 @@ public class Player : MonoBehaviour
 
 
         }
-        if (isShooting == true)
-        { Destroy(shootDir); }
+        if (isShooting == true || !isInBounds)
+        { Destroy(shootDir);
+            if (!isInBounds) { checkMousePos = false; }        
+        }
     }
 
 
@@ -148,14 +159,20 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
+            // 마우스 월드좌표로
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+            // 마우스범위
+            bool isInBounds = mouseWorldPos.x >= -4f && mouseWorldPos.x <= 4f &&
+                             mouseWorldPos.y >= 1f && mouseWorldPos.y <= 11f;
             DirPos();
-
-            if (Input.GetMouseButtonUp(0) && isShooting == false)
+            //print("이거 실행안되는거같은데");
+            if (Input.GetMouseButtonUp(0) && isShooting == false && canShoot && isInBounds && checkMousePos)
             {
-
-
-                yield return StartCoroutine(first_shotCoroutine());
+                //print("여기를 못들어와");
+                shootingCoroutine = StartCoroutine(first_shotCoroutine());
+                yield return shootingCoroutine;
+                //yield return StartCoroutine(first_shotCoroutine());
 
 
                 //yield return new WaitUntil(() => projectile.fistStopPosX != 0);
@@ -209,6 +226,7 @@ public class Player : MonoBehaviour
     {
         if (LevelUpExp <= currentExp)
         {
+            canShoot = false;
             print("LevelUp");
             level++;
             print($"현재 레벨 : {level}");
@@ -227,20 +245,37 @@ public class Player : MonoBehaviour
            }
 
     }
-    private void upgradeAmount()
-    { 
-    if(amount>=100)
+  
+        private void upgradeAmount()
         {
-            print(amount);
-            print(initialAmount);
-            print(projectile.damage);
-            amount /= 10;
-            projectile.damage *= 10f;
-            initialAmount = amount;
-            print(amount);
-            print(initialAmount);
-            print(projectile.damage);
 
+            if (amount >= 100)
+            {
+                amount /= 10;
+                damage *= 10f; // projectile.damage 대신 Player의 damage 값을 수정
+                initialAmount = amount;
+            }
         }
+    public void AbsorbAllProjectiles()
+    {
+        if (shootingCoroutine != null)
+        {
+            StopCoroutine(shootingCoroutine);
+            shootingCoroutine = null;
+        }
+
+
+        Projectile[] projectiles = FindObjectsOfType<Projectile>();
+        foreach (Projectile proj in projectiles)
+        {
+            proj.StartAbsorption(transform.position);
+        }
+     
+        // 모든 상태 완전 초기화
+        isShooting = false;
+        canShoot = true;
+        amount = (int)initialAmount;
+        shootingCoroutine = null;
+        StartCoroutine(Coroutine1());
     }
 }

@@ -24,8 +24,23 @@ public class Projectile : MonoBehaviour
     private GameObject playerObject;
     private Exp exp;
 
-    
- 
+    private bool isBeingAbsorbed = false;
+    private Vector2 targetPosition;
+    public float absorbSpeed = 10f; // 흡수되는 속도
+
+
+    public void StartAbsorption(Vector2 playerPosition)
+    {
+        isBeingAbsorbed = true;
+        targetPosition = playerPosition;
+
+        //물리동작멈춤
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
+    }
+
+
     private void Start()
     {
         exp = FindObjectOfType<Exp>();    
@@ -41,13 +56,39 @@ public class Projectile : MonoBehaviour
         rb.velocity = moveDir * moveSpeed; // 초기 속도 설정
     }
     private void Update()
-    {
+    {//m
+        if (isBeingAbsorbed)
+        {
+            // 플레이어 방향으로 이동
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                targetPosition,
+                absorbSpeed * Time.deltaTime
+            );
+
+            // 플레이어에 도달하면 제거
+            if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
+            {
+                Destroy(gameObject);
+            }
+            return; // 흡수 중일 때는 기존 Update 로직 실행하지 않음
+        }
+
+        // 1
+        
         if (moveDir != Vector2.zero)
         {
 
             float angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg - 90f;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
+        }
+       
+       //m 
+        if (moveDir != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg - 90f;
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
     }
 
@@ -102,7 +143,7 @@ public class Projectile : MonoBehaviour
 
         {
 
-
+            if (isBeingAbsorbed) return;
 
             if (collision.CompareTag("StopLine"))
                 if (gameObject != null)
@@ -127,7 +168,7 @@ public class Projectile : MonoBehaviour
                     }
                    
                     
-                    if (player.amount == player.initialAmount) // 발사 수가 10에 도달하면
+                    if (player.amount == player.initialAmount) // 발사 수 도달하면
                     {
                         //print(player.isShooting);
                         player.isShooting = false; // 발사 상태를 false로 설정
