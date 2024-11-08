@@ -14,6 +14,7 @@ public class UpgradeButton : MonoBehaviour
 
         buttonNameText.text = buttonName;
         button.onClick.AddListener(()=>onClick());
-        }
+     
+    }
     
 }

@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 18652335}
   - component: {fileID: 18652334}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: PNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-    m_FontSize: 8
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -388,10 +388,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1361674386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 31.479086}
-  m_SizeDelta: {x: 160, y: 80}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &129435346
 MonoBehaviour:
@@ -415,11 +415,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 35
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1795,10 +1795,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 8
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 8
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1806,7 +1806,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: X
+  m_Text: +
 --- !u!222 &344477180
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1847,10 +1847,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1361674386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -29.1}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &352921589
 MonoBehaviour:
@@ -1874,12 +1874,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1923,6 +1923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dffa7ed373ab5074e901d0fb4a949c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exps: []
 --- !u!4 &441768447
 Transform:
   m_ObjectHideFlags: 0
@@ -2163,7 +2164,7 @@ GameObject:
   - component: {fileID: 540693850}
   - component: {fileID: 540693849}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: NoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2210,10 +2211,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2243,7 +2244,7 @@ GameObject:
   - component: {fileID: 594282083}
   - component: {fileID: 594282082}
   m_Layer: 5
-  m_Name: UpgradeButton1
+  m_Name: PowerUpgradeButton1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2651,7 +2652,7 @@ GameObject:
   - component: {fileID: 780080876}
   - component: {fileID: 780080875}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: YesText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2698,10 +2699,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2731,7 +2732,7 @@ GameObject:
   - component: {fileID: 823424800}
   - component: {fileID: 823424799}
   m_Layer: 5
-  m_Name: Button (Legacy) (1)
+  m_Name: No
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2752,10 +2753,10 @@ RectTransform:
   - {fileID: 540693848}
   m_Father: {fileID: 1361674386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 42, y: -80.5}
-  m_SizeDelta: {x: 50, y: 20}
+  m_AnchorMin: {x: 0.55, y: 0.25}
+  m_AnchorMax: {x: 0.9, y: 0.35}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &823424799
 MonoBehaviour:
@@ -2873,8 +2874,8 @@ RectTransform:
   - {fileID: 594282081}
   - {fileID: 1541137245}
   - {fileID: 1865039940}
-  - {fileID: 1865125803}
   - {fileID: 1278715888}
+  - {fileID: 1865125803}
   m_Father: {fileID: 1015581590}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3037,13 +3038,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canShoot: 1
   hp: 4
-  damage: 500
+  damage: 100
   LevelUpExp: 1000
   currentExp: 0
   PlusNextLevelExp: 100
   round: 0
   level: 1
-  amount: 99
+  amount: 10
   initialAmount: 0
   killCount: 0
   hpBar: {fileID: 316657779}
@@ -3053,6 +3054,10 @@ MonoBehaviour:
   shootDirPrefab: {fileID: 5828420867412525424, guid: 140ff195771e0b9438fa98423209b7b3, type: 3}
   movespeed: 10
   isShooting: 0
+  stayLevelup: 0
+  countRan: -1
+  powerRan: -1
+  onButton: 0
 --- !u!1 &1015581589
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,9 +3090,9 @@ RectTransform:
   m_Children:
   - {fileID: 691547448}
   - {fileID: 1582536948}
+  - {fileID: 1508546350}
   - {fileID: 1166785376}
   - {fileID: 1430397802}
-  - {fileID: 1508546350}
   - {fileID: 1066304305}
   - {fileID: 855967110}
   - {fileID: 1361674386}
@@ -3286,85 +3291,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066304304}
-  m_CullTransparentMesh: 1
---- !u!1 &1158398480
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1158398481}
-  - component: {fileID: 1158398483}
-  - component: {fileID: 1158398482}
-  m_Layer: 5
-  m_Name: Text (Legacy)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1158398481
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158398480}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1361674386}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: -97.75805}
-  m_SizeDelta: {x: -148.71875, y: -310.84293}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1158398482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158398480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Reset
---- !u!222 &1158398483
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158398480}
   m_CullTransparentMesh: 1
 --- !u!1 &1166785375
 GameObject:
@@ -3570,7 +3496,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-    m_FontSize: 8
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -3853,7 +3779,6 @@ RectTransform:
   - {fileID: 352921588}
   - {fileID: 1743472309}
   - {fileID: 823424798}
-  - {fileID: 1158398481}
   m_Father: {fileID: 1015581590}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4021,10 +3946,22 @@ MonoBehaviour:
   upCard1: {fileID: 594282080}
   upCard2: {fileID: 1541137244}
   upCard3: {fileID: 1865039939}
+  retryYes: {fileID: 1743472310}
+  retryNo: {fileID: 823424799}
+  reset: {fileID: 1278715887}
+  Reset: {fileID: 1278715889}
+  select: {fileID: 1865125802}
+  Select: {fileID: 1865125804}
+  card1: {fileID: 594282082}
+  card2: {fileID: 1541137246}
+  card3: {fileID: 1865039941}
   button: {fileID: 1508546351}
   killcountText: {fileID: 1401761362}
   roundText: {fileID: 1587755877}
   shootAmount: {fileID: 1917813440}
+  upgradePowerNum: {fileID: 18652334}
+  upgradeCountNum: {fileID: 1676971722}
+  player: {fileID: 0}
 --- !u!1 &1373214245
 GameObject:
   m_ObjectHideFlags: 0
@@ -4710,7 +4647,7 @@ GameObject:
   - component: {fileID: 1541137247}
   - component: {fileID: 1541137246}
   m_Layer: 5
-  m_Name: UpgradeButton2
+  m_Name: CountUpgradeButton2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5135,7 +5072,7 @@ GameObject:
   - component: {fileID: 1676971723}
   - component: {fileID: 1676971722}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: CNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5182,10 +5119,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 8
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 8
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -5215,7 +5152,7 @@ GameObject:
   - component: {fileID: 1743472311}
   - component: {fileID: 1743472310}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: Yes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5236,10 +5173,10 @@ RectTransform:
   - {fileID: 780080874}
   m_Father: {fileID: 1361674386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -42, y: -80.5}
-  m_SizeDelta: {x: 50, y: 20}
+  m_AnchorMin: {x: 0.1, y: 0.25}
+  m_AnchorMax: {x: 0.45, y: 0.35}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1743472310
 MonoBehaviour:
@@ -5420,7 +5357,7 @@ GameObject:
   - component: {fileID: 1865039942}
   - component: {fileID: 1865039941}
   m_Layer: 5
-  m_Name: UpgradeButton3
+  m_Name: HpUpgradeButton3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5554,7 +5491,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865125802}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5565,7 +5502,7 @@ RectTransform:
   m_AnchorMin: {x: 0.35, y: 0.17836851}
   m_AnchorMax: {x: 0.65, y: 0.23019736}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.0000038146973, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1865125804
 MonoBehaviour:
@@ -5708,10 +5645,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 8
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 8
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -7309,6 +7246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2073111144}
   - component: {fileID: 2073111143}
+  - component: {fileID: 2073111145}
   m_Layer: 0
   m_Name: ExpPoint
   m_TagString: Untagged
@@ -7343,6 +7281,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073111145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073111142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9dc3c0a27895d74ba07520306527f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 933764167}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

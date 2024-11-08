@@ -59,13 +59,27 @@ public class EnemySpawn : MonoBehaviour
 
     }
    
+
     //적 생성 
     private void Spawn(int count)
     {
+        for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--)
+        {
+            print("작동하니");
+            Enemy enemy = GameManager.Instance.enemies[i];
+            if (enemy != null)
+            {
+                enemy.Move();
+            }
+            else
+            {
+                GameManager.Instance.enemies.RemoveAt(i);
+            }
+        }
+
         Vector2 spawnPos;
         player.round++;
 
-      
         float currentMaxHp = 1000f + hpIncrease;
         float currentExpAmount = 100f + expIncrease;
 

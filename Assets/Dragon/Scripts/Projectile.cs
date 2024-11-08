@@ -11,14 +11,14 @@ public class Projectile : MonoBehaviour
 {
     public float damage = 100f;
 
-    public float moveSpeed;
+    private float moveSpeed = 7f;
     public Vector2 movepoint;
     public Vector2 mousePosition;
     public Vector2 shotPos;
     private Rigidbody2D rb;
     private Transform shotPoint;
     private Vector2 moveDir;
-    private Player player; // 미사일 연속 발사를 막기위해 임시로 만들어 놓음 
+    private Player player;
     public int amount = 0;// 미사일 연속 발사를 막기위해 임시로 만들어 놓음
     private EnemySpawn enemySpawn;
     private GameObject playerObject;
@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour
 
     private bool isBeingAbsorbed = false;
     private Vector2 targetPosition;
-    public float absorbSpeed = 10f; // 흡수되는 속도
+    private float absorbSpeed = 10f; // 흡수되는 속도
 
 
     public void StartAbsorption(Vector2 playerPosition)
@@ -43,8 +43,8 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        exp = FindObjectOfType<Exp>();    
-        GameManager.Instance.projectile=this;
+        exp = FindObjectOfType<Exp>();
+        GameManager.Instance.projectile = this;
         player = FindObjectOfType<Player>();
         //print(fistStopPosX);
     }
@@ -61,10 +61,10 @@ public class Projectile : MonoBehaviour
         {
             // 플레이어 방향으로 이동
             transform.position = Vector2.MoveTowards(
-                transform.position,
-                targetPosition,
-                absorbSpeed * Time.deltaTime
-            );
+          transform.position,
+          targetPosition,
+          absorbSpeed * Time.deltaTime
+      );
 
             // 플레이어에 도달하면 제거
             if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
@@ -75,7 +75,7 @@ public class Projectile : MonoBehaviour
         }
 
         // 1
-        
+
         if (moveDir != Vector2.zero)
         {
 
@@ -83,8 +83,8 @@ public class Projectile : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
         }
-       
-       //m 
+
+        //m 
         if (moveDir != Vector2.zero)
         {
             float angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg - 90f;
@@ -92,7 +92,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    
+
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -107,8 +107,8 @@ public class Projectile : MonoBehaviour
                 Vector2 reflected = Vector2.Reflect(incoming, normal); // 반사된 방향 계산
                 moveDir = reflected;
 
-                rb.velocity = moveDir* moveSpeed;
-               
+                rb.velocity = moveDir * moveSpeed;
+
                 if (collision.collider.CompareTag("Enemy"))
                 {
                     Enemy enemy = collision.collider.GetComponent<Enemy>();
@@ -127,7 +127,7 @@ public class Projectile : MonoBehaviour
                             //player.currentExp += 100f; //다른곳에서 먹어야해
                             //print(player.currentExp);
                             player.killCount++;
-                            
+
                         }
                     }
 
@@ -138,7 +138,7 @@ public class Projectile : MonoBehaviour
 
     }
 
-    private static bool isFirstProjectile = true;
+    public bool isFirstProjectile = true;
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -168,7 +168,7 @@ public class Projectile : MonoBehaviour
                         isFirstProjectile = false;
                     }
 
-                    //player.amount++;
+                    player.amount++;
                     //if (player.amount == 1)
                     //{
 
@@ -176,17 +176,28 @@ public class Projectile : MonoBehaviour
                     //    //print(player.fistStopPosX);
                     //}
 
-
                     if (player.amount == player.initialAmount) // 발사 수 도달하면
                     {
                         //print(player.isShooting);
                         player.isShooting = false; // 발사 상태를 false로 설정
+                        isFirstProjectile = true;
                         //print(player.isShooting);
-                    }
 
+                    }
+                    
+                    //else if (player.onButton)
+                    //{
+                    //    player.amount = player.initialAmount;
+                    //    player.isShooting = false; // 발사 상태를 false로 설정
+                    //    isFirstProjectile = true;
+                    //    player.onButton = false;
+
+                    //}
                 }
+
+               
         }
     }
-    
+
 
 }

@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using Unity.VisualScripting;
-using UnityEditor.UIElements;
+
+
+//using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
@@ -21,7 +24,7 @@ public class Player : MonoBehaviour
     
     public float level = 1f;
     public int amount = 10;
-    public float initialAmount;
+    public int initialAmount;
 
     private float maxHp = 4f;
     public int killCount = 0;
@@ -54,9 +57,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.player = this;
+        UIManager.Instance.player = this;
         initialAmount = amount;
         exp = FindObjectOfType<Exp>();
-        GameManager.Instance.player = this;
         projectile = FindObjectOfType<Projectile>();
         StartCoroutine(Coroutine1());
 
@@ -64,19 +68,21 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+       
         upgradeAmount();
         hpBar.fillAmount = hpAmount;
         expBar.fillAmount = ExpAmount;
         ShootDir();
         LevelUp();
-        
+        PlayerDie();
+
         UIManager.Instance.killcountText.text = killCount.ToString();
         UIManager.Instance.roundText.text = round.ToString();
         UIManager.Instance.shootAmount.text = amount.ToString();
 
         shotPoint.transform.position = shotPoint.transform.position;
 
-
+        
     }
 
 
@@ -88,30 +94,49 @@ public class Player : MonoBehaviour
 
     }
 
+    private void PlayerDie()
+    {
+        if (hp <= 0)
+        {
+            print("플레이어사망");
+            UIManager.Instance.GameOver.SetActive(true);
+            isShooting = false;
 
+
+        }
+    }
     public IEnumerator first_shotCoroutine()
     {
-        isShooting = true;
 
-        for (int i = 0; i < initialAmount; i++)
+        
+        if (GameManager.Instance.expsnum)
         {
-            if (!isShooting) yield break;
+            UIManager.Instance.button.gameObject.SetActive(true);
+            isShooting = true;
+            for (int i = 0; i < initialAmount; i++)
+            {
+                
+                if (!isShooting) yield break;
 
-            GameObject projectileObj = Instantiate(ProjectileFirePrefab, shotPoint.transform.position, Quaternion.identity);
-            Projectile projectileComponent = projectileObj.GetComponent<Projectile>();
-            projectileComponent.damage = damage; // 데미지 값을 설정
-            projectileComponent.Initialize(initialDirection);
+                
+                GameObject projectileObj = Instantiate(ProjectileFirePrefab, shotPoint.transform.position, Quaternion.identity);
+                Projectile projectileComponent = projectileObj.GetComponent<Projectile>();
+                projectileComponent.damage = damage; // 데미지 값을 설정
+                projectileComponent.Initialize(initialDirection);
 
-            yield return new WaitForSeconds(0.1f);
-            amount--;
+                yield return new WaitForSeconds(0.1f);
+                amount--;
+
+            }
         }
     }
     
     private bool checkMousePos = false;
     private void ShootDir()
     {
-        if (!canShoot) return;
-
+        if (!canShoot||!GameManager.Instance.expsnum) return;
+        
+        
         // 마우스 월드좌표로
         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -146,19 +171,34 @@ public class Player : MonoBehaviour
             }
 
 
+
         }
+
         if (isShooting == true || !isInBounds)
         { Destroy(shootDir);
             if (!isInBounds) { checkMousePos = false; }        
+        }
+
+        if (isShooting == true || !isInBounds)
+        {
+            if (shootDir != null)
+            {
+                Destroy(shootDir);
+            }
+            if (!isInBounds)
+            {
+                checkMousePos = false;
+            }
         }
     }
 
 
 
     public IEnumerator Coroutine1()
-    {
+    {   
         while (true)
         {
+            if(!stopcoroutine) yield break;
             yield return StartCoroutine(third_MoveCoroutine());
             // 마우스 월드좌표로
             Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -168,6 +208,7 @@ public class Player : MonoBehaviour
                              mouseWorldPos.y >= 1f && mouseWorldPos.y <= 11f;
             DirPos();
             //print("이거 실행안되는거같은데");
+           
             if (Input.GetMouseButtonUp(0) && isShooting == false && canShoot && isInBounds && checkMousePos)
             {
                 //print("여기를 못들어와");
@@ -180,32 +221,11 @@ public class Player : MonoBehaviour
 
 
                 yield return new WaitUntil(() => isShooting==false);
-
-                //yield return new WaitUntil(() => isShooting == false);
                
-                    for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--)
-                    {
-                        Enemy enemy = GameManager.Instance.enemies[i];
-                        if (enemy != null)
-                        {
-                            enemy.Move();
-                        }
-                        else
-                        {
-                            GameManager.Instance.enemies.RemoveAt(i);
-                        }
-                    }
+                   
                 
             }
-           
-
-
-
-
-            //print("삭제전");
-
-            //print("삭제후");
-
+          
         }
     }
 
@@ -226,28 +246,39 @@ public class Player : MonoBehaviour
     //    exp.gainExp();
     //}
 
+    public bool stayLevelup = false;
+    public int countRan = -1;
+    public int powerRan = -1;
     public void LevelUp()
-    {
+    { 
+        
         if (LevelUpExp <= currentExp)
         {
+
+            stayLevelup = true;
             canShoot = false;
             print("LevelUp");
             level++;
-            print($"현재 레벨 : {level}");
+          
             currentExp -= LevelUpExp;
             LevelUpExp += PlusNextLevelExp;
-
+           
+            print($"현재 레벨 : {level}");
             
+            
+                powerRan = Random.Range(1, 4) * 10;
+                countRan = Random.Range(1, 6) * 10;
+                UIManager.Instance.upgradePowerNum.text = powerRan.ToString() + "%";
+                UIManager.Instance.upgradeCountNum.text = countRan.ToString();
 
-            //print(projectile.damage);
-            //projectile.damage += 100f;
-
-            amount += 10;
-            //print(amount);
-            initialAmount += 10;
-        StartCoroutine(UIManager.Instance.LevelUpCoroutine()); 
-           }
-
+            //StopCoroutine(exp.gainExp());
+            StartCoroutine(UIManager.Instance.LevelUpCoroutine());
+            
+            
+    
+        }
+        
+    
     }
   
         private void upgradeAmount()
@@ -260,35 +291,42 @@ public class Player : MonoBehaviour
                 initialAmount = amount;
             }
         }
+    public bool onButton=false ; 
+    private bool projectileBack = true;
+    private bool stopcoroutine = true;
     public void AbsorbAllProjectiles()
     {
-        if (shootingCoroutine != null)
-        {
-            StopCoroutine(shootingCoroutine);
-            shootingCoroutine = null;
-        }
+        onButton = true;
+        projectileBack = false;
+        print("2번");
+        //if (shootingCoroutine != null)
+        //{
+        //    StopCoroutine(shootingCoroutine);
+        //    shootingCoroutine = null;
+        //}
 
-        StopAllCoroutines();
+        
+        stopcoroutine = false;
 
         Projectile[] projectiles = FindObjectsOfType<Projectile>();
         foreach (Projectile proj in projectiles)
         {
+            print("3번");
             proj.StartAbsorption(transform.position);
+
         }
-     
+
+        print("4번");
         // 모든 상태 완전 초기화
+
         isShooting = false;
         canShoot = true;
         amount = (int)initialAmount;
         shootingCoroutine = null;
-        StartCoroutine(Coroutine1());
-    }
-    private IEnumerator AbsorptionMoveCoroutine()
-    {
-        // 흡수 애니메이션을 위한 짧은 대기
-        yield return new WaitForSeconds(0.5f);
+        stopcoroutine = true;
 
-        // 기본 코루틴들 다시 시작
-        StartCoroutine(Coroutine1());
     }
+   
+   
+
 }

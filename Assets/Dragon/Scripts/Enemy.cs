@@ -43,7 +43,12 @@ public class Enemy : MonoBehaviour
             player.hp--;
             die();
             print(player.hp);
-
+            if (player.hp <= 0)
+            {
+                print("»ç¸Á");
+                
+                
+            }
         }
     }
 
