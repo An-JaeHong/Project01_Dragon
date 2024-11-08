@@ -159,6 +159,7 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
+            yield return StartCoroutine(third_MoveCoroutine());
             // 마우스 월드좌표로
             Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -179,27 +180,30 @@ public class Player : MonoBehaviour
 
 
                 yield return new WaitUntil(() => isShooting==false);
-                for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--)
-                {
-                    Enemy enemy = GameManager.Instance.enemies[i];
-                    if (enemy != null)
-                    {
-                        enemy.Move();
-                    }
-                    else
-                    {
-                        GameManager.Instance.enemies.RemoveAt(i);
-                    }
-                }
-                //yield return new WaitUntil(() => isShooting == false);
-            }
 
-            
-            yield return StartCoroutine(third_MoveCoroutine());
+                //yield return new WaitUntil(() => isShooting == false);
+               
+                    for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--)
+                    {
+                        Enemy enemy = GameManager.Instance.enemies[i];
+                        if (enemy != null)
+                        {
+                            enemy.Move();
+                        }
+                        else
+                        {
+                            GameManager.Instance.enemies.RemoveAt(i);
+                        }
+                    }
+                
+            }
+           
+
+
 
 
             //print("삭제전");
-        
+
             //print("삭제후");
 
         }
@@ -264,6 +268,7 @@ public class Player : MonoBehaviour
             shootingCoroutine = null;
         }
 
+        StopAllCoroutines();
 
         Projectile[] projectiles = FindObjectsOfType<Projectile>();
         foreach (Projectile proj in projectiles)
@@ -276,6 +281,14 @@ public class Player : MonoBehaviour
         canShoot = true;
         amount = (int)initialAmount;
         shootingCoroutine = null;
+        StartCoroutine(Coroutine1());
+    }
+    private IEnumerator AbsorptionMoveCoroutine()
+    {
+        // 흡수 애니메이션을 위한 짧은 대기
+        yield return new WaitForSeconds(0.5f);
+
+        // 기본 코루틴들 다시 시작
         StartCoroutine(Coroutine1());
     }
 }

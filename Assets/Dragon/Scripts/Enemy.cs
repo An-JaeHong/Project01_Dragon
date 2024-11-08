@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     public float hp=1000;
-    public float maxHp=1500;
+    public float maxHp=1000;
     public Image hpBar;
     public float hpAmount { get { return hp / maxHp; } }
     private EnemySpawn enemySpawn;
     private Player player;
     private Exp exp;
-
+    public float expAmount=100f;
     public GameObject expPrefabs;
 
     public List<Exp> expPrefabsList = new List<Exp>();
@@ -60,6 +60,7 @@ public class Enemy : MonoBehaviour
        Exp expComponent = expPrefab.GetComponent<Exp>();
         if (expComponent != null)
         {
+            expComponent.exp = expAmount;  // 증가된 경험치 설정
             expPrefabsList.Add(expComponent);
         }
         //print(expPrefabsList.Count);

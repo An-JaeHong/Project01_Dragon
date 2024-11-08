@@ -137,6 +137,8 @@ public class Projectile : MonoBehaviour
         }
 
     }
+
+    private static bool isFirstProjectile = true;
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -159,15 +161,22 @@ public class Projectile : MonoBehaviour
 
                     // Player의 발사 수 증가
 
-                    player.amount++;
-                    if (player.amount == 1)
-                    {
 
-                        player.fistStopPosX= gameObject.transform.position.x;
-                        //print(player.fistStopPosX);
+                    if (isFirstProjectile)
+                    {
+                        player.fistStopPosX = transform.position.x;
+                        isFirstProjectile = false;
                     }
-                   
-                    
+
+                    //player.amount++;
+                    //if (player.amount == 1)
+                    //{
+
+                    //    player.fistStopPosX= gameObject.transform.position.x;
+                    //    //print(player.fistStopPosX);
+                    //}
+
+
                     if (player.amount == player.initialAmount) // 발사 수 도달하면
                     {
                         //print(player.isShooting);
