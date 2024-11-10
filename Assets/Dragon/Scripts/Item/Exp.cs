@@ -31,7 +31,13 @@ public class Exp : MonoBehaviour
 
     private void LateUpdate()
     {
-        gainExp();
+        if (!player.stayLevelup && !player.isShooting) // 필요한 경우에만 실행
+        {
+            gainExp();
+        }
+
+
+        //gainExp();
     }
     public void gainExp()
     {

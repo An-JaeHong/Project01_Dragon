@@ -62,6 +62,10 @@ public class Player : MonoBehaviour
         initialAmount = amount;
         exp = FindObjectOfType<Exp>();
         projectile = FindObjectOfType<Projectile>();
+        stopcoroutine = true;
+        projectileBack = true;
+        onButton = false;
+
         StartCoroutine(Coroutine1());
 
     }
@@ -131,7 +135,7 @@ public class Player : MonoBehaviour
         }
     }
     
-    private bool checkMousePos = false;
+    public bool checkMousePos = false;
     private void ShootDir()
     {
         if (!canShoot||!GameManager.Instance.expsnum) return;
@@ -161,12 +165,9 @@ public class Player : MonoBehaviour
             Transform tail = shootDir.transform.Find("tail");
             if (tail != null)
             {
-
-                //Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
                 float a = (mouseWorldPos.x + shotPoint.transform.position.x) / 2;
                 float b = (mouseWorldPos.y + shotPoint.transform.position.y) / 2;
                 tail.transform.position = new Vector2(a, b);
-                //tail.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
                 tail.transform.localScale = new Vector2(1, b);
             }
 
@@ -292,8 +293,8 @@ public class Player : MonoBehaviour
             }
         }
     public bool onButton=false ; 
-    private bool projectileBack = true;
-    private bool stopcoroutine = true;
+   public bool projectileBack = true;
+    public bool stopcoroutine = true;
     public void AbsorbAllProjectiles()
     {
         onButton = true;

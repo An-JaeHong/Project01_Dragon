@@ -235,7 +235,26 @@ public class UIManager : SingtonManager<UIManager>
         player.killCount = playerKillCount;
         player.fistStopPosX = playerFistStopPosX;
 
+        player.canShoot = true;
+        player.isShooting = false;
+        player.stayLevelup = false;
+        player.powerRan = -1;
+        player.countRan = -1;
+        player.PlusNextLevelExp = 100f;
+
+        player.stopcoroutine = true;
+        player.projectileBack = true;
+        player.onButton = false;
+        player.checkMousePos = false;
+       
+  
+
+        GameManager.Instance.exps.Clear();
+        GameManager.Instance.enemies.Clear();
+        GameManager.Instance.expsnum = true;
     }
+
+
     public void GameEnd()
     {
 #if UNITY_EDITOR

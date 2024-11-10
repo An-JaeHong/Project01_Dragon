@@ -39,19 +39,13 @@ public class EnemySpawn : MonoBehaviour
         while (true)
         {
             int spawnNum = Random.Range(minMaxSpawnCount.x, minMaxSpawnCount.y + 1);
-            //print(spawnNum);
-            //int maxNum = 40 - SpawnPositions.Count;
-
-
-            //if (maxNum < spawnNum)
-            //{ spawnNum = maxNum; }
-
+      
             Spawn(spawnNum);
 
 
             yield return new WaitUntil(() => player.isShooting);
             yield return new WaitUntil(() => !player.isShooting);
-            //print(SpawnPositions.Count);
+          
         }
 
         
@@ -65,7 +59,7 @@ public class EnemySpawn : MonoBehaviour
     {
         for (int i = GameManager.Instance.enemies.Count - 1; i >= 0; i--)
         {
-            print("작동하니");
+           
             Enemy enemy = GameManager.Instance.enemies[i];
             if (enemy != null)
             {
@@ -76,7 +70,6 @@ public class EnemySpawn : MonoBehaviour
                 GameManager.Instance.enemies.RemoveAt(i);
             }
         }
-
         Vector2 spawnPos;
         player.round++;
 
@@ -96,10 +89,8 @@ public class EnemySpawn : MonoBehaviour
             }
             while (SpawnPositions.Contains(spawnPos));
             SpawnPositions.Add(spawnPos);
-            //print(spawnPos);
             GameObject enemyObj = Instantiate(enemyprefab, spawnPos, Quaternion.identity);
             Enemy enemyComponent = enemyObj.GetComponent<Enemy>();
-            //Instantiate(enemyprefab, spawnPos, Quaternion.identity);
             enemyComponent.maxHp = currentMaxHp;
             enemyComponent.hp = currentMaxHp;
             enemyComponent.expAmount = currentExpAmount;
@@ -107,8 +98,9 @@ public class EnemySpawn : MonoBehaviour
         }
         hpIncrease += 100f;
         expIncrease += 10f;
-
     }
+
+
     public void RemoveSpawnPosition(Vector2 position)
     {
         SpawnPositions.Remove(position);

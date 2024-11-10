@@ -123,9 +123,7 @@ public class Projectile : MonoBehaviour
                             enemySpawn = FindObjectOfType<EnemySpawn>();
                             List<Vector2> spawnPositions = enemySpawn.SpawnPositions;
                             spawnPositions.Remove(this.transform.position);
-                            //print(player.currentExp);
-                            //player.currentExp += 100f; //다른곳에서 먹어야해
-                            //print(player.currentExp);
+                        
                             player.killCount++;
 
                         }
@@ -153,10 +151,8 @@ public class Projectile : MonoBehaviour
 
                     Rigidbody2D rb = GetComponent<Rigidbody2D>();
                     rb.velocity = Vector2.zero;
-                    rb.isKinematic = true; // 물리 엔진의 영향을 받지 않도록 설정
-                                           //print(rb.velocity);
-                                           // 미사일 삭제
-                    Destroy(gameObject); //지금은 삭제 나중 지워짐 옮겨야해
+                    rb.isKinematic = true; 
+                    Destroy(gameObject); 
                     player = FindObjectOfType<Player>();
 
                     // Player의 발사 수 증가
@@ -169,12 +165,7 @@ public class Projectile : MonoBehaviour
                     }
 
                     player.amount++;
-                    //if (player.amount == 1)
-                    //{
-
-                    //    player.fistStopPosX= gameObject.transform.position.x;
-                    //    //print(player.fistStopPosX);
-                    //}
+                   
 
                     if (player.amount == player.initialAmount) // 발사 수 도달하면
                     {
@@ -184,15 +175,7 @@ public class Projectile : MonoBehaviour
                         //print(player.isShooting);
 
                     }
-                    
-                    //else if (player.onButton)
-                    //{
-                    //    player.amount = player.initialAmount;
-                    //    player.isShooting = false; // 발사 상태를 false로 설정
-                    //    isFirstProjectile = true;
-                    //    player.onButton = false;
-
-                    //}
+              
                 }
 
                
