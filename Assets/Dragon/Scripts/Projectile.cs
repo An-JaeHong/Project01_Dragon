@@ -60,11 +60,7 @@ public class Projectile : MonoBehaviour
         if (isBeingAbsorbed)
         {
             // 플레이어 방향으로 이동
-            transform.position = Vector2.MoveTowards(
-          transform.position,
-          targetPosition,
-          absorbSpeed * Time.deltaTime
-      );
+            transform.position = Vector2.MoveTowards(transform.position,targetPosition,absorbSpeed * Time.deltaTime);
 
             // 플레이어에 도달하면 제거
             if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
